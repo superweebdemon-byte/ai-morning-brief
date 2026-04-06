@@ -156,7 +156,7 @@ def main():
     
     # Send as plain text (no parse_mode) to prevent 400 errors
     for i in range(0, len(msg), 4000):
-        chunk = msg[i:i+4000]
+        chunk = html.unescape(msg[i:i+4000])
         data = json.dumps({"chat_id": TELEGRAM_CHAT_ID, "text": chunk}).encode()
         req = urllib.request.Request(
             f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
