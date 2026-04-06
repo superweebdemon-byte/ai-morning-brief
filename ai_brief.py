@@ -15,6 +15,9 @@ USER_AGENT = (
 )
 
 
+
+def safe(s):
+    return re.sub(r'[<>&]', '', s).strip()
 def fetch(url, timeout=15, retries=2):
     """Fetch URL with retries. Returns string or None."""
     for attempt in range(retries + 1):
@@ -352,7 +355,7 @@ def generate_self_improvement(community_wisdom, section_status):
 
     # 1. Community wisdom (live external signal)
     if community_wisdom:
-        suggestions.append("Community: %s" % community_wisdom[0])
+        suggestions.append("Community: %s" % community_safe(wisdom[0]))
 
     # 2. Self-reflection on brief quality
     if section_status:
@@ -423,9 +426,9 @@ def build():
     msg += "\n\n<b>FINANCIAL NEWS (FT)</b>"
     if ft_news:
         for n in ft_news[:6]:
-            msg += '\n  <a href="%s">%s</a>' % (n["url"], html.escape(n["title"]))
+            msg += '\n  <a href="%s">%s</a>' % (n["url"], html.escape(safe(n["title"])))
             if n.get("desc"):
-                msg += "\n  <i>%s</i>" % html.escape(n["desc"])
+                msg += "\n  <i>%s</i>" % html.escape(safe(n["desc"]))
     else:
         msg += "\n  No financial headlines available"
 
@@ -433,7 +436,7 @@ def build():
     if hn:
         for s in hn:
             msg += ('\n  (%d pts) <a href="%s">%s</a>'
-                    % (s["score"], s["url"], html.escape(s["title"][:85])))
+                    % (s["score"], s["url"], html.escape(safe(s["title"][:85]))))
     else:
         msg += "\n  Quiet on HN today"
 
@@ -458,7 +461,7 @@ def build():
             msg += ('\n  <a href="%s">%s</a> (%d %s)'
                     % (r["url"], r["name"], r.get("stars", 0), r.get("lang", "")))
             if r.get("desc"):
-                msg += "\n  <i>%s</i>" % html.escape(r["desc"])
+                msg += "\n  <i>%s</i>" % html.escape(safe(r["desc"]))
     else:
         msg += "\n  No repos fetched"
 
