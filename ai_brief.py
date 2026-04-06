@@ -79,7 +79,7 @@ def get_wisdom(stories):
 
 def get_models():
     res = []
-    d = json.loads(fetch("https://openrouter.ai/api/v1/models", t=20) or "{}")
+    d = json.loads(fetch("https://openrouter.ai/api/v1/models", timeout=20) or "{}")
     seen = set()
     for m in d.get("data", []):
         mid = m.get("id", "")
