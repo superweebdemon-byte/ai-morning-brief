@@ -355,7 +355,7 @@ def generate_self_improvement(community_wisdom, section_status):
 
     # 1. Community wisdom (live external signal)
     if community_wisdom:
-        suggestions.append("Community: %s" % community_safe(wisdom[0]))
+        suggestions.append("Community: %s" % safe(wisdom[0]))
 
     # 2. Self-reflection on brief quality
     if section_status:
