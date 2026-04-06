@@ -423,9 +423,9 @@ def build():
     msg += "\n\n<b>FINANCIAL NEWS (FT)</b>"
     if ft_news:
         for n in ft_news[:6]:
-            msg += '\n  <a href="%s">%s</a>' % (n["url"], n["title"])
+            msg += '\n  <a href="%s">%s</a>' % (n["url"], html.escape(n["title"]))
             if n.get("desc"):
-                msg += "\n  <i>%s</i>" % n["desc"]
+                msg += "\n  <i>%s</i>" % html.escape(n["desc"])
     else:
         msg += "\n  No financial headlines available"
 
@@ -433,7 +433,7 @@ def build():
     if hn:
         for s in hn:
             msg += ('\n  (%d pts) <a href="%s">%s</a>'
-                    % (s["score"], s["url"], s["title"][:85]))
+                    % (s["score"], s["url"], html.escape(s["title"][:85])))
     else:
         msg += "\n  Quiet on HN today"
 
@@ -458,7 +458,7 @@ def build():
             msg += ('\n  <a href="%s">%s</a> (%d %s)'
                     % (r["url"], r["name"], r.get("stars", 0), r.get("lang", "")))
             if r.get("desc"):
-                msg += "\n  <i>%s</i>" % r["desc"]
+                msg += "\n  <i>%s</i>" % html.escape(r["desc"])
     else:
         msg += "\n  No repos fetched"
 
